@@ -27,7 +27,7 @@ import:
   subpackages:
   - data
 - package: github.com/tendermint/tmlibs
-  version: v0.2.2
+  version: ec1a99ee1304cf87eec752a03a9d198c192b9264
   subpackages:
   - autofile
   - cli
@@ -35,6 +35,7 @@ import:
   - common
   - db
   - events
+  - events.v2
   - flowrate
   - log
   - merkle

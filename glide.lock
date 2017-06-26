@@ -1,5 +1,5 @@
-hash: 7b6edafcc8b8aad7c697bf745121afa3ae37402d8ae3e8f6193d1fabed619997
-updated: 2017-06-23T22:11:01.311106426-04:00
+hash: 49ad4d9f5a28422eaa1e01477527a997e7ab83e0cdde644d80e624d263f0d971
+updated: 2017-06-30T09:30:49.058737564Z
 imports:
 - name: github.com/btcsuite/btcd
   version: b8df516b4b267acf2de46be593a9d948d1d2c420
@@ -116,14 +116,14 @@ imports:
   - data
   - data/base58
 - name: github.com/tendermint/merkleeyes
-  version: ce7de05896f560ddcc9207f65fea9901835dd238
+  version: 439776e0199f1812e132aa7b97463e8550906690
   subpackages:
   - app
   - client
   - iavl
   - testutil
 - name: github.com/tendermint/tmlibs
-  version: 7ce4da1eee6004d627e780c8fe91e96d9b99e459
+  version: ec1a99ee1304cf87eec752a03a9d198c192b9264
   subpackages:
   - autofile
   - cli
@@ -132,9 +132,11 @@ imports:
   - common
   - db
   - events
+  - events.v2
   - flowrate
   - log
   - merkle
+  - pubsub
   - test
 - name: golang.org/x/crypto
   version: c7af5bf2638a1164f2eb5467c39c6cffbd13a02e
