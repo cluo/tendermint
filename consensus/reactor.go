@@ -33,7 +33,7 @@ type ConsensusReactor struct {
 
 	conS     *ConsensusState
 	fastSync bool
-	pubsub   types.EventsPubsub
+	pubsub   types.PubSub
 }
 
 func NewConsensusReactor(consensusState *ConsensusState, fastSync bool) *ConsensusReactor {
@@ -287,7 +287,7 @@ func (conR *ConsensusReactor) Receive(chID byte, src *p2p.Peer, msgBytes []byte)
 }
 
 // SetPubsub sets event publisher and subscriber.
-func (conR *ConsensusReactor) SetPubsub(pubsub types.EventsPubsub) {
+func (conR *ConsensusReactor) SetPubsub(pubsub types.PubSub) {
 	conR.pubsub = pubsub
 	conR.conS.SetPubsub(pubsub)
 }
