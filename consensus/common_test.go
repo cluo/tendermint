@@ -208,7 +208,8 @@ func validatePrevoteAndPrecommit(t *testing.T, cs *ConsensusState, thisRound, lo
 
 // genesis
 func subscribeToVoter(cs *ConsensusState, addr []byte) chan interface{} {
-	voteCh0 := cs.pubsub.Subscribe(types.EventQueryVote)
+	voteCh0 := make(chan interface{})
+	cs.pubsub.Subscribe(types.EventQueryVote, voteCh0)
 	voteCh := make(chan interface{})
 	go func() {
 		for v := range voteCh0 {
@@ -248,7 +249,7 @@ func newConsensusStateWithConfig(thisConfig *cfg.Config, state *sm.State, pv *ty
 	cs.SetLogger(log.TestingLogger())
 	cs.SetPrivValidator(pv)
 
-	pubsub := tmpubsub.NewServer(1)
+	pubsub := tmpubsub.NewServer()
 	pubsub.SetLogger(log.TestingLogger().With("module", "pubsub"))
 	pubsub.Start()
 	cs.SetPubsub(pubsub)

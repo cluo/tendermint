@@ -123,8 +123,8 @@ func (c Local) Subscribe(query string, out chan<- types.TMEventData) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to parse query")
 	}
-
-	ch := c.PubSub.Subscribe(q)
+	ch := make(chan interface{})
+	c.PubSub.Subscribe(q, ch)
 	go func() {
 		for e := range ch {
 			if ed, ok := e.(types.TMEventData); ok {

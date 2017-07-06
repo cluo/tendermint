@@ -15,7 +15,8 @@ func Subscribe(wsCtx rpctypes.WSRPCContext, query string) (*ctypes.ResultSubscri
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to parse a query")
 	}
-	ch := pubsub.Subscribe(q)
+	ch := make(chan interface{})
+	pubsub.Subscribe(q, ch)
 	if err = wsCtx.AddSubscription(query, ch); err != nil {
 		pubsub.Unsubscribe(ch)
 		return nil, err

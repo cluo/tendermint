@@ -153,6 +153,7 @@ func runReplayTest(t *testing.T, cs *ConsensusState, walFile string, newBlockCh 
 	cs.Stop()
 	cs.Wait()
 	cs.pubsub.Stop()
+	close(newBlockCh)
 }
 
 func toPV(pv PrivValidator) *types.PrivValidator {
@@ -182,7 +183,8 @@ func setupReplayTest(t *testing.T, thisCase *testCase, nLines int, crashAfter bo
 
 	t.Logf("[WARN] setupReplayTest LastStep=%v", toPV(cs.privValidator).LastStep)
 
-	newBlockCh := cs.pubsub.Subscribe(types.EventQueryNewBlock)
+	newBlockCh := make(chan interface{})
+	cs.pubsub.Subscribe(types.EventQueryNewBlock, newBlockCh)
 
 	return cs, newBlockCh, lastMsg, walFile
 }
@@ -244,7 +246,9 @@ func TestWALCrashBeforeWritePropose(t *testing.T) {
 func testReplayCrashBeforeWriteVote(t *testing.T, thisCase *testCase, lineNum int, eventQuery tmpubsub.Query) {
 	// setup replay test where last message is a vote
 	cs, newBlockCh, voteMsg, walFile := setupReplayTest(t, thisCase, lineNum, false)
-	eventCh := cs.pubsub.Subscribe(eventQuery)
+	eventCh := make(chan interface{})
+	defer close(eventCh)
+	cs.pubsub.Subscribe(eventQuery, eventCh)
 	go func() {
 		for range eventCh {
 			msg := readTimedWALMessage(t, voteMsg)

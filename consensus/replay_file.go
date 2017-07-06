@@ -42,7 +42,11 @@ func (cs *ConsensusState) ReplayFile(file string, console bool) error {
 	cs.startForReplay()
 
 	// ensure all new step events are regenerated as expected
-	newStepCh := cs.pubsub.Subscribe(types.EventQueryNewRoundStep)
+	newStepCh := make(chan interface{})
+	defer close(newStepCh)
+
+	cs.pubsub.Subscribe(types.EventQueryNewRoundStep, newStepCh)
+	defer cs.pubsub.Unsubscribe(newStepCh)
 
 	// just open the file for reading, no need to use wal
 	fp, err := os.OpenFile(file, os.O_RDONLY, 0666)
@@ -181,7 +185,12 @@ func (pb *playback) replayConsoleLoop() int {
 			// so we restart and replay up to
 
 			// ensure all new step events are regenerated as expected
-			newStepCh := pb.cs.pubsub.Subscribe(types.EventQueryNewRoundStep)
+			newStepCh := make(chan interface{})
+			defer close(newStepCh)
+
+			pb.cs.pubsub.Subscribe(types.EventQueryNewRoundStep, newStepCh)
+			defer pb.cs.pubsub.Unsubscribe(newStepCh)
+
 			if len(tokens) == 1 {
 				pb.replayReset(1, newStepCh)
 			} else {
@@ -252,7 +261,7 @@ func newConsensusStateForReplay(config cfg.BaseConfig, csConfig *cfg.ConsensusCo
 	}
 
 	// Make event switch
-	pubsub := tmpubsub.NewServer(1)
+	pubsub := tmpubsub.NewServer()
 	if _, err := pubsub.Start(); err != nil {
 		cmn.Exit(cmn.Fmt("Failed to start event server: %v", err))
 	}

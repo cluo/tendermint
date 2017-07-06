@@ -1,5 +1,5 @@
-hash: 49ad4d9f5a28422eaa1e01477527a997e7ab83e0cdde644d80e624d263f0d971
-updated: 2017-06-30T09:30:49.058737564Z
+hash: fdddd16b2e86a8d9d9e41b791c190dafebbabd6da1141015da0bae7d89c5bcef
+updated: 2017-07-06T17:11:21.520434878Z
 imports:
 - name: github.com/btcsuite/btcd
   version: b8df516b4b267acf2de46be593a9d948d1d2c420
@@ -123,7 +123,7 @@ imports:
   - iavl
   - testutil
 - name: github.com/tendermint/tmlibs
-  version: ec1a99ee1304cf87eec752a03a9d198c192b9264
+  version: 9e25ede189371e6e4896c99a6441ea87517d7020
   subpackages:
   - autofile
   - cli
@@ -132,11 +132,11 @@ imports:
   - common
   - db
   - events
-  - events.v2
   - flowrate
   - log
   - merkle
   - pubsub
+  - pubsub/query
   - test
 - name: golang.org/x/crypto
   version: c7af5bf2638a1164f2eb5467c39c6cffbd13a02e
